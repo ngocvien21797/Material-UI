@@ -18,12 +18,12 @@ function Sidebar() {
 
   const contacts = [
     {
-      name: "Diogo Forlan",
+      name: "ngoc vien",
       username: "@forlan77",
       avatar: "https://via.placeholder.com/40",
     },
     {
-      name: "Jane Smith",
+      name: "ngoc vien2",
       username: "@jane123",
       avatar: "https://via.placeholder.com/40",
     },

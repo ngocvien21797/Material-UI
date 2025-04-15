@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -32,18 +32,34 @@ const suggestedUsers = [
     username: "@mikejohnson",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
   },
-  // Add more users as needed
+  {
+    id: 4,
+    name: "Sarah Lee",
+    username: "@sarahlee",
+    avatar: "https://mui.com/static/images/avatar/4.jpg",
+  },
+  {
+    id: 5,
+    name: "Robert Brown",
+    username: "@robertbrown",
+    avatar: "https://mui.com/static/images/avatar/5.jpg",
+  },
 ];
 
 const Suggestions = () => {
-  const [following, setFollowing] = React.useState({});
+  const [following, setFollowing] = useState({});
+  const [showAll, setShowAll] = useState(false); // Điều khiển việc xem tất cả người dùng
 
-  const handleFollow = (userId) => {
+  // Hàm để thay đổi trạng thái theo dõi
+  const handleFollow = useCallback((userId) => {
     setFollowing((prev) => ({
       ...prev,
       [userId]: !prev[userId],
     }));
-  };
+  }, []);
+
+  // Danh sách người dùng để hiển thị (dựa trên showAll)
+  const displayedUsers = showAll ? suggestedUsers : suggestedUsers.slice(0, 3);
 
   return (
     <Box
@@ -71,14 +87,16 @@ const Suggestions = () => {
           sx={{
             fontWeight: "500",
             color: "#6ec207",
+            cursor: "pointer",
           }}
+          onClick={() => setShowAll((prev) => !prev)}
         >
-          Xem tất cả
+          {showAll ? "Thu gọn" : "Xem tất cả"}
         </Typography>
       </Box>
 
       <List sx={{ width: "300px" }}>
-        {suggestedUsers.map((user) => (
+        {displayedUsers.map((user) => (
           <ListItem
             key={user.id}
             sx={{
@@ -125,6 +143,9 @@ const Suggestions = () => {
                   fontSize: "0.8rem",
                   backgroundColor: "#f5f5f5",
                   borderRadius: "25px",
+                  "&:hover": {
+                    backgroundColor: following[user.id] ? "#d3d3d3" : "#c1c1c1",
+                  },
                 }}
                 onClick={() => handleFollow(user.id)}
               >
